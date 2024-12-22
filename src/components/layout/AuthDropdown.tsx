@@ -30,7 +30,10 @@ export function AuthDropdown() {
   if (!isSignedIn) {
     return (
       <>
-        <Link href="/sign-up" className={cn(buttonVariants())}>
+        <Link
+          href="/sign-up"
+          className={cn(buttonVariants({ variant: "outline" }))}
+        >
           Get Started
         </Link>
       </>
@@ -50,13 +53,13 @@ export function AuthDropdown() {
           />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="" align="end" forceMount>
+      <DropdownMenuContent align="end" forceMount>
         <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
+            <p className="text-sm leading-none">
               {user.firstName} {user.lastName}
             </p>
-            <p className="text-xs leading-none text-gray-900">
+            <p className="text-xs leading-none text-muted-foreground">
               {user?.primaryEmailAddress?.emailAddress}
             </p>
           </div>
@@ -66,13 +69,11 @@ export function AuthDropdown() {
           <DropdownMenuItem>
             <Settings />
             <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <SignOutButton>
             <DropdownMenuItem>
               <LogOut />
               <span>Log out</span>
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>
           </SignOutButton>
         </DropdownMenuGroup>
