@@ -267,6 +267,6 @@
     @apply border-gray-400;
   }
   body {
-    @apply bg-background-100 text-gray-1000;
+    @apply bg-background-200 text-gray-1000;
   }
 }
