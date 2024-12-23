@@ -9,7 +9,7 @@ export default function Teams() {
         <CopyPlus size={16} />
         <span>Teams</span>
       </h2>
-      <div className="grid w-full grid-cols-3 gap-4">
+      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fit,minmax(22.75rem,28rem))]">
         <TeamCard />
         <NewTeamCard />
       </div>
