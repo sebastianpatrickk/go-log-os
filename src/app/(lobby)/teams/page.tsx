@@ -1,8 +1,13 @@
 import { CopyPlus } from "lucide-react";
 import TeamCard from "./_components/TeamCard";
 import NewTeamCard from "./_components/NewTeamCard";
+import { getUserTeams } from "@/lib/queries/team";
 
-export default function Teams() {
+export default async function Teams() {
+  const teams = await getUserTeams();
+
+  console.log(teams);
+
   return (
     <div className="flex w-full flex-col gap-3">
       <h2 className="flex items-center gap-2 text-lg">

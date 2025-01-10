@@ -14,7 +14,7 @@ export const users = pgTable("users", {
   clerkId: text("clerk_id").notNull(),
   firstName: varchar("first_name", { length: 100 }),
   lastName: varchar("last_name", { length: 100 }),
-  email: varchar("email", { length: 255 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull(),
   role: varchar("role", { length: 20 }).notNull().default("user"),
   teamId: integer("team_id").references(() => teams.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
