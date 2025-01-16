@@ -8,6 +8,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { teams } from "./teams";
+import { entries } from "./entries";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -22,7 +23,8 @@ export const users = pgTable("users", {
   deletedAt: timestamp("deleted_at"),
 });
 
-export const usersRelations = relations(users, ({ one }) => ({
+export const usersRelations = relations(users, ({ one, many }) => ({
+  entries: many(entries),
   team: one(teams, {
     fields: [users.teamId],
     references: [teams.id],

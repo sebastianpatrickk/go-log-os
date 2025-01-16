@@ -15,6 +15,13 @@
       "when": 1735132006370,
       "tag": "0001_yummy_joshua_kane",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737047095802,
+      "tag": "0002_friendly_magneto",
+      "breakpoints": true
     }
   ]
 }
