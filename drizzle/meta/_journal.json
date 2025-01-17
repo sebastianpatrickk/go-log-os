@@ -22,6 +22,20 @@
       "when": 1737047095802,
       "tag": "0002_friendly_magneto",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1737122227002,
+      "tag": "0003_flaky_yellowjacket",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1737122559515,
+      "tag": "0004_cultured_nuke",
+      "breakpoints": true
     }
   ]
 }
