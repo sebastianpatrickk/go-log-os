@@ -1,6 +1,7 @@
 import { db } from "@/lib/db/drizzle";
 import { entries, users } from "@/lib/db/schema";
 import { attendanceSchema } from "@/lib/schemas/attendance";
+import { validateCard } from "@/lib/token";
 import { generateAttendanceMessage } from "@/lib/utils";
 import { and, eq, isNull } from "drizzle-orm";
 
@@ -8,6 +9,16 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   const { data } = attendanceSchema.parse(body);
+
+  const isValid = await validateCard(data.cardId, data.token);
+
+  if (!isValid) {
+    return Response.json({
+      data: {
+        message: "Invalid card",
+      },
+    });
+  }
 
   const userData = await db
     .select()

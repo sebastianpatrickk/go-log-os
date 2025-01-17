@@ -5,5 +5,7 @@ export const attendanceSchema = z.object({
   data: z.object({
     userId: z.number(),
     timestamp: z.string().transform((value) => dateToUTC(new Date(value))),
+    token: z.string(),
+    cardId: z.string(),
   }),
 });

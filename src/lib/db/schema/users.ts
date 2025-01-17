@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { teams } from "./teams";
 import { entries } from "./entries";
+import { cards } from "./cards";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -25,6 +26,7 @@ export const users = pgTable("users", {
 
 export const usersRelations = relations(users, ({ one, many }) => ({
   entries: many(entries),
+  cards: many(cards),
   team: one(teams, {
     fields: [users.teamId],
     references: [teams.id],
