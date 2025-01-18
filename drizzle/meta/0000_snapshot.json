@@ -1,5 +1,5 @@
 {
-  "id": "e8cc5813-31f4-4196-b017-fcddb01758f0",
+  "id": "ab9880a2-d405-4cda-80d9-c10feda5343a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -47,7 +47,7 @@
         },
         "person_id": {
           "name": "person_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -131,7 +131,7 @@
         },
         "person_id": {
           "name": "person_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -397,7 +397,7 @@
         },
         "person_id": {
           "name": "person_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
@@ -450,14 +450,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "clerk_id": {
-          "name": "clerk_id",
           "type": "text",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true
         },
         "first_name": {

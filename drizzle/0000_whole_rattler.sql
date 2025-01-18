@@ -5,7 +5,7 @@ CREATE TABLE "users" (
 	"email" varchar(255) NOT NULL,
 	"role" varchar(20) DEFAULT 'user' NOT NULL,
 	"team_id" integer,
-	"person_id" integer NOT NULL,
+	"person_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"deleted_at" timestamp
@@ -15,7 +15,7 @@ CREATE TABLE "teams" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" varchar(100),
 	"description" varchar(255),
-	"person_id" integer NOT NULL,
+	"person_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"deleted_at" timestamp
@@ -50,15 +50,14 @@ CREATE TABLE "devices" (
 	"id" varchar(30) PRIMARY KEY NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"api_key" varchar(255) NOT NULL,
-	"person_id" integer NOT NULL,
+	"person_id" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT current_timestamp,
 	"deleted_at" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE "person" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"clerk_id" text NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"first_name" varchar(100),
 	"last_name" varchar(100),
 	"email" varchar(255) NOT NULL,

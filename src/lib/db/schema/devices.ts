@@ -1,4 +1,4 @@
-import { integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
 import { generateId } from "@/lib/id";
 import { teamsToDevices } from "./teams";
@@ -10,7 +10,7 @@ export const devices = pgTable("devices", {
     .primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   apiKey: varchar("api_key", { length: 255 }).notNull(),
-  personId: integer("person_id")
+  personId: text("person_id")
     .notNull()
     .references(() => person.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),

@@ -3,6 +3,7 @@ import {
   integer,
   pgTable,
   serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -18,7 +19,7 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull(),
   role: varchar("role", { length: 20 }).notNull().default("user"),
   teamId: integer("team_id").references(() => teams.id),
-  personId: integer("person_id")
+  personId: text("person_id")
     .notNull()
     .references(() => person.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
