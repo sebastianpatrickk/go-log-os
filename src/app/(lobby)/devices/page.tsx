@@ -1,6 +1,7 @@
 import { MonitorSmartphone } from "lucide-react";
 import NewDeviceCard from "./_components/NewDeviceCard";
 import Devices from "./_components/Devices";
+import Dialog from "@/components/Dialog";
 
 export default async function DevicesPage() {
   return (
@@ -9,9 +10,12 @@ export default async function DevicesPage() {
         <MonitorSmartphone size={16} />
         <span>Devices</span>
       </h2>
+
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fit,minmax(22.75rem,28rem))]">
         <Devices />
-        <NewDeviceCard />
+        <Dialog title="New device" trigger={<NewDeviceCard />}>
+          <p>New device</p>
+        </Dialog>
       </div>
     </div>
   );
