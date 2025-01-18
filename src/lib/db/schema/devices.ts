@@ -6,7 +6,7 @@ import { person } from "./person";
 
 export const devices = pgTable("devices", {
   id: varchar("id", { length: 30 })
-    .$defaultFn(() => generateId())
+    .$defaultFn(() => generateId("device"))
     .primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   apiKey: varchar("api_key", { length: 255 }).notNull(),
