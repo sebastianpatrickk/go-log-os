@@ -1,16 +1,11 @@
 import { customAlphabet } from "nanoid";
 
 const prefixes = {
-  store: "str",
-  product: "prd",
-  category: "cat",
-  subcategory: "sub",
-  cart: "crt",
-  subscription: "sub",
-  payment: "pay",
-  address: "adr",
-  order: "ord",
-  notification: "not",
+  device: "dev",
+  team: "team",
+  user: "usr",
+  card: "card",
+  entry: "ent",
 };
 
 interface GenerateIdOptions {

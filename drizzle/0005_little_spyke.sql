@@ -1,1 +1,0 @@
-ALTER TABLE "cards" ALTER COLUMN "user_id" SET NOT NULL;

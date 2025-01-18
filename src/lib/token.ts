@@ -2,6 +2,7 @@ import crypto from "crypto";
 import { db } from "./db/drizzle";
 import { cards } from "./db/schema";
 import { eq } from "drizzle-orm";
+import { generateId } from "./id";
 
 export function generateCardToken(cardId: string, secret: string) {
   const hmac = crypto.createHmac("sha256", secret);
@@ -21,4 +22,8 @@ export async function validateCard(cardId: string, token: string) {
   }
 
   return card[0];
+}
+
+export async function generateDeviceApiKey() {
+  return generateId("device", { length: 8 });
 }
