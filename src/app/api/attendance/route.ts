@@ -10,9 +10,9 @@ export async function POST(req: Request) {
 
   const { data } = attendanceSchema.parse(body);
 
-  const isValid = await validateCard(data.cardId, data.token);
+  const card = await validateCard(data.cardId, data.token);
 
-  if (!isValid) {
+  if (!card) {
     return Response.json({
       data: {
         message: "Invalid card",
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   const userData = await db
     .select()
     .from(users)
-    .where(eq(users.id, data.userId));
+    .where(eq(users.id, card.userId));
 
   if (userData.length === 0) {
     return Response.json({
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   const entryData = await db
     .select()
     .from(entries)
-    .where(and(eq(entries.userId, data.userId), isNull(entries.endDate)));
+    .where(and(eq(entries.userId, card.userId), isNull(entries.endDate)));
 
   let message;
 
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   } else {
     await db.insert(entries).values({
       startDate: new Date(data.timestamp),
-      userId: data.userId,
+      userId: card.userId,
     });
 
     message = generateAttendanceMessage(

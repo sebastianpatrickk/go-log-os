@@ -15,5 +15,10 @@ export async function validateCard(cardId: string, token: string) {
     return null;
   }
   const expectedToken = generateCardToken(cardId, process.env.CARD_SECRET!);
-  return token === expectedToken;
+
+  if (token !== expectedToken) {
+    return null;
+  }
+
+  return card[0];
 }

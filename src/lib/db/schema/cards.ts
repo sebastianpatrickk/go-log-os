@@ -15,7 +15,9 @@ export const cards = pgTable("cards", {
     .primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   isActive: boolean("is_active").default(true),
-  userId: integer("user_id").references(() => users.id),
+  userId: integer("user_id")
+    .references(() => users.id)
+    .notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").default(sql`current_timestamp`),
   deletedAt: timestamp("deleted_at"),
