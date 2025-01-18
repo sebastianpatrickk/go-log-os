@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 import { ClerkProvider } from "@clerk/nextjs";
+import QueryProvider from "@/components/QueryProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,14 +32,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} font-mono antialiased`}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <QueryProvider>
             <div className="min-h-screen w-full bg-background">{children}</div>
-          </ThemeProvider>
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>
