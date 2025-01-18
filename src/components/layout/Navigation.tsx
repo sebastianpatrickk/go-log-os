@@ -10,12 +10,20 @@ export default async function Navigation() {
   return (
     <div className="flex items-center gap-1">
       {userId && (
-        <Link
-          href="/teams"
-          className={cn(buttonVariants({ variant: "ghost" }))}
-        >
-          Teams
-        </Link>
+        <>
+          <Link
+            href="/teams"
+            className={cn(buttonVariants({ variant: "ghost" }))}
+          >
+            Teams
+          </Link>
+          <Link
+            href="/devices"
+            className={cn(buttonVariants({ variant: "ghost" }))}
+          >
+            Devices
+          </Link>
+        </>
       )}
       <AuthDropdown />
     </div>
