@@ -50,6 +50,10 @@ export async function pairDevice(input: PairDevice) {
       throw new Error("Device not found");
     }
 
+    if (deviceData[0].personId) {
+      throw new Error("Device is already paired.");
+    }
+
     const teamsData = await db
       .select()
       .from(teams)
