@@ -26,3 +26,10 @@ export const pairDeviceSchema = z.object({
 });
 
 export type PairDevice = z.infer<typeof pairDeviceSchema>;
+
+export const setupDeviceSchema = z.object({
+  id: z.string(),
+  apiKey: z.string().length(8, "API key must be exactly 8 characters"),
+});
+
+export type SetupDevice = z.infer<typeof setupDeviceSchema>;
