@@ -46,7 +46,7 @@ export async function pairDevice(input: PairDevice) {
       .from(devices)
       .where(eq(devices.apiKey, input.apiKey));
 
-    if (!deviceData) {
+    if (deviceData.length === 0) {
       throw new Error("Device not found");
     }
 
@@ -60,7 +60,7 @@ export async function pairDevice(input: PairDevice) {
         ),
       );
 
-    if (!teamsData) {
+    if (teamsData.length === 0) {
       throw new Error("Teams not found");
     }
 
@@ -83,9 +83,6 @@ export async function pairDevice(input: PairDevice) {
       error: null,
     };
   } catch (error) {
-    return {
-      data: null,
-      error: getErrorMessage(error),
-    };
+    throw new Error(getErrorMessage(error));
   }
 }

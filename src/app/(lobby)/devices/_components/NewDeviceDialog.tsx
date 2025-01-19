@@ -19,30 +19,30 @@ import {
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { X } from "lucide-react";
+import NewDeviceCard from "./NewDeviceCard";
+import { usePairNewDeviceDialog } from "@/hooks/use-dialog";
 
-export default function Dialog({
-  title,
+export default function NewDeviceDialog({
   children,
-  trigger,
 }: {
-  title: string;
   children: React.ReactNode;
-  trigger: React.ReactNode;
 }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { isOpen, onOpenChange, onOpen } = usePairNewDeviceDialog();
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   if (isDesktop) {
     return (
-      <DialogPrimitive open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogPrimitive open={isOpen} onOpenChange={onOpenChange}>
+        <DialogTrigger asChild>
+          <NewDeviceCard />
+        </DialogTrigger>
         <DialogContent
           closeButton={false}
           className="gap-0 px-5 py-4 sm:max-w-lg"
         >
           <DialogHeader className="">
             <div className="flex flex-row items-center justify-between">
-              <DialogTitle className="text-lg">{title}</DialogTitle>
+              <DialogTitle className="text-lg">Pair New Device</DialogTitle>
               <DialogClose>
                 <X size={16} />
               </DialogClose>
@@ -55,11 +55,13 @@ export default function Dialog({
   }
 
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+    <Drawer open={isOpen} onOpenChange={onOpenChange}>
+      <DrawerTrigger asChild onClick={onOpen}>
+        <NewDeviceCard />
+      </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerTitle>Pair New Device</DrawerTitle>
         </DrawerHeader>
 
         <div className="px-4 pb-4">{children}</div>

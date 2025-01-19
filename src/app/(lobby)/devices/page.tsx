@@ -1,10 +1,9 @@
 import { MonitorSmartphone } from "lucide-react";
-import NewDeviceCard from "./_components/NewDeviceCard";
 import Devices from "./_components/Devices";
-import Dialog from "@/components/Dialog";
 import { NewDeviceForm } from "./_components/NewDeviceForm";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import NewDeviceDialog from "./_components/NewDeviceDialog";
 
 export default async function DevicesPage() {
   const { userId } = await auth();
@@ -22,9 +21,9 @@ export default async function DevicesPage() {
 
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fit,minmax(22.75rem,28rem))]">
         <Devices personId={userId} />
-        <Dialog title="New device" trigger={<NewDeviceCard />}>
+        <NewDeviceDialog>
           <NewDeviceForm personId={userId} />
-        </Dialog>
+        </NewDeviceDialog>
       </div>
     </div>
   );

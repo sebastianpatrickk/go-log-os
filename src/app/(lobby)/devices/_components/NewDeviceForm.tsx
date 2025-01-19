@@ -28,10 +28,11 @@ import { useGetTeamsByPersonIdForSelect } from "@/lib/queries/team";
 import { type PairDevice, pairDeviceSchema } from "@/lib/schemas/device";
 import { Loader, Trash2 } from "lucide-react";
 import { usePairDevice } from "@/lib/queries/device";
+import { usePairNewDeviceDialog } from "@/hooks/use-dialog";
 
 export function NewDeviceForm({ personId }: { personId: string }) {
   const { data: teams } = useGetTeamsByPersonIdForSelect(personId);
-
+  const { onClose } = usePairNewDeviceDialog();
   const mutation = usePairDevice();
 
   const form = useForm<PairDevice>({
@@ -56,7 +57,8 @@ export function NewDeviceForm({ personId }: { personId: string }) {
   async function onSubmit(values: PairDevice) {
     mutation.mutate(values, {
       onSuccess: () => {
-        console.log("success");
+        form.reset();
+        onClose();
       },
     });
   }
@@ -160,7 +162,10 @@ export function NewDeviceForm({ personId }: { personId: string }) {
                     className="mt-2 w-full"
                     onClick={() => {
                       const currentTeams = form.getValues("teams") || [];
-                      form.setValue("teams", [...currentTeams, ""]);
+                      form.setValue("teams", [
+                        ...currentTeams,
+                        getAvailableTeams()?.[0]?.id.toString() || "",
+                      ]);
                     }}
                     disabled={
                       (teams &&

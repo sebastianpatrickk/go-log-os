@@ -25,8 +25,8 @@ export function usePairDevice() {
       queryClient.invalidateQueries({ queryKey: ["devices"] });
     },
 
-    onError: () => {
-      toast.error("Error occurred while pairing device.");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
