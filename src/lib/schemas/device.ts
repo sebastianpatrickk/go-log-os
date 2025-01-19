@@ -7,11 +7,10 @@ export const deviceCardSchema = z.object({
 });
 export type DeviceCard = z.infer<typeof deviceCardSchema>;
 
-export const newDeviceFormSchema = z.object({
+export const pairDeviceSchema = z.object({
   apiKey: z.string().length(8, "API key must be exactly 8 characters"),
-  teams: z
-    .array(z.string())
-    .min(1, "Please select at least one team")
-    .default([]),
+  teams: z.array(z.string()).min(1, "Please select at least one team"),
+  personId: z.string(),
 });
-export type NewDeviceForm = z.infer<typeof newDeviceFormSchema>;
+
+export type PairDevice = z.infer<typeof pairDeviceSchema>;

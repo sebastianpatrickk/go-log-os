@@ -25,17 +25,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetTeamsByPersonIdForSelect } from "@/lib/queries/team";
-import { type NewDeviceForm, newDeviceFormSchema } from "@/lib/schemas/device";
+import { type PairDevice, pairDeviceSchema } from "@/lib/schemas/device";
 import { Loader, Trash2 } from "lucide-react";
 
 export function NewDeviceForm({ userId }: { userId: string }) {
   const { data: teams } = useGetTeamsByPersonIdForSelect(userId);
 
-  const form = useForm<NewDeviceForm>({
-    resolver: zodResolver(newDeviceFormSchema),
+  const form = useForm<PairDevice>({
+    resolver: zodResolver(pairDeviceSchema),
     defaultValues: {
       apiKey: "",
       teams: [],
+      personId: userId,
     },
   });
 
@@ -49,7 +50,7 @@ export function NewDeviceForm({ userId }: { userId: string }) {
   };
 
   // 2. Define a submit handler.
-  async function onSubmit(values: NewDeviceForm) {
+  async function onSubmit(values: PairDevice) {
     // Simulate API call with 3 second delay
     await new Promise((resolve) => setTimeout(resolve, 3000));
     console.log(values);
