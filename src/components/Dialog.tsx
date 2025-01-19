@@ -2,24 +2,25 @@
 
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog as DialogPrimitive,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { X } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default function Dialog({
   title,
@@ -30,36 +31,40 @@ export default function Dialog({
   children: React.ReactNode;
   trigger: React.ReactNode;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   if (isDesktop) {
     return (
-      <DialogPrimitive open={open} onOpenChange={setOpen}>
+      <DialogPrimitive open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
-        <DialogContent className="sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
+        <DialogContent
+          closeButton={false}
+          className="gap-0 px-5 py-4 sm:max-w-md"
+        >
+          <DialogHeader className="">
+            <div className="flex flex-row items-center justify-between">
+              <DialogTitle className="text-lg">{title}</DialogTitle>
+              <DialogClose>
+                <X size={16} />
+              </DialogClose>
+            </div>
           </DialogHeader>
-          <div>{children}</div>
+          <div className="">{children}</div>
         </DialogContent>
       </DialogPrimitive>
     );
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
-        <div className="px-4">{children}</div>
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
+
+        <div className="px-4 pb-4">{children}</div>
       </DrawerContent>
     </Drawer>
   );
