@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogClose,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Drawer,
@@ -20,7 +19,6 @@ import {
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { X } from "lucide-react";
-import { Button } from "./ui/button";
 
 export default function Dialog({
   title,
@@ -40,7 +38,7 @@ export default function Dialog({
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent
           closeButton={false}
-          className="gap-0 px-5 py-4 sm:max-w-md"
+          className="gap-0 px-5 py-4 sm:max-w-lg"
         >
           <DialogHeader className="">
             <div className="flex flex-row items-center justify-between">

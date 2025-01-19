@@ -2,12 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,11 +26,10 @@ import {
 } from "@/components/ui/select";
 import { useGetTeamsByPersonIdForSelect } from "@/lib/queries/team";
 import { type NewDeviceForm, newDeviceFormSchema } from "@/lib/schemas/device";
-import { Minus, Trash2 } from "lucide-react";
+import { Loader, Trash2 } from "lucide-react";
 
 export function NewDeviceForm({ userId }: { userId: string }) {
-  const { data: teams, isLoading: teamsLoading } =
-    useGetTeamsByPersonIdForSelect(userId);
+  const { data: teams } = useGetTeamsByPersonIdForSelect(userId);
 
   const form = useForm<NewDeviceForm>({
     resolver: zodResolver(newDeviceFormSchema),
@@ -40,6 +38,15 @@ export function NewDeviceForm({ userId }: { userId: string }) {
       teams: [],
     },
   });
+
+  const getAvailableTeams = (currentValue?: string) => {
+    const selectedTeams = form.getValues("teams") || [];
+    return teams?.filter(
+      (team) =>
+        !selectedTeams.includes(team.id.toString()) ||
+        team.id.toString() === currentValue,
+    );
+  };
 
   // 2. Define a submit handler.
   async function onSubmit(values: NewDeviceForm) {
@@ -59,7 +66,11 @@ export function NewDeviceForm({ userId }: { userId: string }) {
               <FormItem>
                 <FormLabel>API Key</FormLabel>
                 <FormControl>
-                  <InputOTP maxLength={8} {...field}>
+                  <InputOTP
+                    maxLength={8}
+                    {...field}
+                    disabled={form.formState.isSubmitting}
+                  >
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
                       <InputOTPSlot index={1} />
@@ -93,6 +104,7 @@ export function NewDeviceForm({ userId }: { userId: string }) {
                             <Select
                               onValueChange={field.onChange}
                               value={field.value || ""}
+                              disabled={form.formState.isSubmitting}
                             >
                               <FormControl>
                                 <SelectTrigger className="w-full">
@@ -100,7 +112,7 @@ export function NewDeviceForm({ userId }: { userId: string }) {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {teams?.map((team) => (
+                                {getAvailableTeams(field.value)?.map((team) => (
                                   <SelectItem
                                     key={team.id}
                                     value={team.id.toString()}
@@ -117,12 +129,19 @@ export function NewDeviceForm({ userId }: { userId: string }) {
                           variant="destructive"
                           onClick={() => {
                             const currentTeams = form.getValues("teams") || [];
+                            if (currentTeams.length === 1) {
+                              return;
+                            }
                             form.setValue(
                               "teams",
                               currentTeams.filter((_, i) => i !== index),
                             );
                           }}
                           className="size-10"
+                          disabled={
+                            form.watch("teams")?.length === 1 ||
+                            form.formState.isSubmitting
+                          }
                         >
                           <Trash2 size={16} />
                         </Button>
@@ -137,6 +156,11 @@ export function NewDeviceForm({ userId }: { userId: string }) {
                       const currentTeams = form.getValues("teams") || [];
                       form.setValue("teams", [...currentTeams, ""]);
                     }}
+                    disabled={
+                      (teams &&
+                        teams.length === (form.watch("teams") || []).length) ||
+                      form.formState.isSubmitting
+                    }
                   >
                     Add Team
                   </Button>
@@ -151,9 +175,14 @@ export function NewDeviceForm({ userId }: { userId: string }) {
           <Button
             type="submit"
             variant="outline"
+            className="h-9"
             disabled={form.formState.isSubmitting}
           >
-            Pair device
+            {form.formState.isSubmitting ? (
+              <Loader className="size-4 animate-spin" />
+            ) : (
+              "Pair device"
+            )}
           </Button>
         </div>
       </form>
