@@ -10,13 +10,19 @@ export async function POST(req: Request) {
 
   const { data } = attendanceSchema.parse(body);
 
-  const card = await validateCard(data.cardId, data.token);
+  const { error, data: card } = await validateCard(data.cardId, data.token);
 
   if (!card) {
     return Response.json({
-      data: {
-        message: "Invalid card",
-      },
+      error: "Invalid card",
+      data: null,
+    });
+  }
+
+  if (error) {
+    return Response.json({
+      error: error,
+      data: null,
     });
   }
 
@@ -27,9 +33,8 @@ export async function POST(req: Request) {
 
   if (userData.length === 0) {
     return Response.json({
-      data: {
-        message: "User not found",
-      },
+      error: "User not found",
+      data: null,
     });
   }
 
@@ -65,6 +70,7 @@ export async function POST(req: Request) {
   }
 
   return Response.json({
+    error: null,
     data: {
       message,
     },

@@ -12,16 +12,35 @@ export function generateCardToken(cardId: string, secret: string) {
 
 export async function validateCard(cardId: string, token: string) {
   const card = await db.select().from(cards).where(eq(cards.id, cardId));
-  if (!card || !card[0].isActive) {
-    return null;
+  if (card.length === 0) {
+    return {
+      error: "Card not found",
+      data: null,
+    };
   }
+
+  const cardData = card[0];
+
+  if (!cardData.isActive) {
+    return {
+      error: "Card not active",
+      data: null,
+    };
+  }
+
   const expectedToken = generateCardToken(cardId, process.env.CARD_SECRET!);
 
   if (token !== expectedToken) {
-    return null;
+    return {
+      error: "Invalid token",
+      data: null,
+    };
   }
 
-  return card[0];
+  return {
+    error: null,
+    data: cardData,
+  };
 }
 
 export async function generateDeviceApiKey() {
