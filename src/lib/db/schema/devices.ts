@@ -10,9 +10,7 @@ export const devices = pgTable("devices", {
     .primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   apiKey: varchar("api_key", { length: 255 }).notNull(),
-  personId: text("person_id")
-    .notNull()
-    .references(() => person.id),
+  personId: text("person_id").references(() => person.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").default(sql`current_timestamp`),
   deletedAt: timestamp("deleted_at"),

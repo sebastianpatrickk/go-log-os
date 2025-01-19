@@ -1,0 +1,1 @@
+ALTER TABLE "teams_to_devices" ADD COLUMN "id" serial PRIMARY KEY NOT NULL;

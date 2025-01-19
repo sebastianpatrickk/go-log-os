@@ -33,6 +33,7 @@ export const teamsRelations = relations(teams, ({ one, many }) => ({
 }));
 
 export const teamsToDevices = pgTable("teams_to_devices", {
+  id: serial("id").primaryKey(),
   teamId: integer("team_id")
     .references(() => teams.id)
     .notNull(),

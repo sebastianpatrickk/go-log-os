@@ -8,6 +8,20 @@
       "when": 1737223254500,
       "tag": "0000_whole_rattler",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1737293899547,
+      "tag": "0001_many_wrecker",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1737293973831,
+      "tag": "0002_deep_marvel_apes",
+      "breakpoints": true
     }
   ]
 }
