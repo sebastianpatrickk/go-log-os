@@ -15,7 +15,13 @@ export type DeviceCard = z.infer<typeof deviceCardSchema>;
 
 export const pairDeviceSchema = z.object({
   apiKey: z.string().length(8, "API key must be exactly 8 characters"),
-  teams: z.array(z.string()).min(1, "Please select at least one team"),
+  teams: z
+    .array(z.string())
+    .min(1, "Please select at least one team")
+    .refine(
+      (teams) => teams.every((team) => team.length > 0) && teams.length > 0,
+      "Please select a team for each field",
+    ),
   personId: z.string(),
 });
 

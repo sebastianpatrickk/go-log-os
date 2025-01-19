@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,6 +28,7 @@ import { type PairDevice, pairDeviceSchema } from "@/lib/schemas/device";
 import { Loader, Trash2 } from "lucide-react";
 import { usePairDevice } from "@/lib/queries/device";
 import { usePairNewDeviceDialog } from "@/hooks/use-dialog";
+import React from "react";
 
 export function NewDeviceForm({ personId }: { personId: string }) {
   const { data: teams } = useGetTeamsByPersonIdForSelect(personId);
@@ -44,8 +44,18 @@ export function NewDeviceForm({ personId }: { personId: string }) {
     },
   });
 
+  const {
+    getValues,
+    reset,
+    formState,
+    control,
+    setValue,
+    watch,
+    handleSubmit,
+  } = form;
+
   const getAvailableTeams = (currentValue?: string) => {
-    const selectedTeams = form.getValues("teams") || [];
+    const selectedTeams = getValues("teams") || [];
     return teams?.filter(
       (team) =>
         !selectedTeams.includes(team.id.toString()) ||
@@ -57,7 +67,7 @@ export function NewDeviceForm({ personId }: { personId: string }) {
   async function onSubmit(values: PairDevice) {
     mutation.mutate(values, {
       onSuccess: () => {
-        form.reset();
+        reset();
         onClose();
       },
     });
@@ -65,10 +75,10 @@ export function NewDeviceForm({ personId }: { personId: string }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
         <div className="space-y-6">
           <FormField
-            control={form.control}
+            control={control}
             name="apiKey"
             render={({ field }) => (
               <FormItem>
@@ -77,7 +87,7 @@ export function NewDeviceForm({ personId }: { personId: string }) {
                   <InputOTP
                     maxLength={8}
                     {...field}
-                    disabled={form.formState.isSubmitting}
+                    disabled={formState.isSubmitting}
                   >
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
@@ -97,22 +107,22 @@ export function NewDeviceForm({ personId }: { personId: string }) {
           />
           <div className="space-y-2">
             <FormField
-              control={form.control}
+              control={control}
               name="teams"
               render={() => (
                 <FormItem>
                   <FormLabel>Teams</FormLabel>
                   <div className="space-y-2">
-                    {(form.watch("teams") || []).map((_, index) => (
+                    {(watch("teams") || []).map((_, index) => (
                       <div key={index} className="flex items-center gap-2">
                         <FormField
-                          control={form.control}
+                          control={control}
                           name={`teams.${index}`}
                           render={({ field }) => (
                             <Select
                               onValueChange={field.onChange}
                               value={field.value || ""}
-                              disabled={form.formState.isSubmitting}
+                              disabled={formState.isSubmitting}
                             >
                               <FormControl>
                                 <SelectTrigger className="w-full">
@@ -136,19 +146,19 @@ export function NewDeviceForm({ personId }: { personId: string }) {
                           type="button"
                           variant="destructive"
                           onClick={() => {
-                            const currentTeams = form.getValues("teams") || [];
+                            const currentTeams = getValues("teams") || [];
                             if (currentTeams.length === 1) {
                               return;
                             }
-                            form.setValue(
+                            setValue(
                               "teams",
                               currentTeams.filter((_, i) => i !== index),
                             );
                           }}
                           className="size-10"
                           disabled={
-                            form.watch("teams")?.length === 1 ||
-                            form.formState.isSubmitting
+                            watch("teams")?.length === 1 ||
+                            formState.isSubmitting
                           }
                         >
                           <Trash2 size={16} />
@@ -161,17 +171,13 @@ export function NewDeviceForm({ personId }: { personId: string }) {
                     variant="outline"
                     className="mt-2 w-full"
                     onClick={() => {
-                      const currentTeams = form.getValues("teams") || [];
-                      form.setValue("teams", [
-                        ...currentTeams,
-                        getAvailableTeams()?.[0]?.id.toString() || "",
-                      ]);
-                      form.trigger("teams");
+                      const currentTeams = getValues("teams") || [];
+                      setValue("teams", [...currentTeams, ""]);
                     }}
                     disabled={
                       (teams &&
-                        teams.length === (form.watch("teams") || []).length) ||
-                      form.formState.isSubmitting
+                        teams.length === (watch("teams") || []).length) ||
+                      formState.isSubmitting
                     }
                   >
                     Add Team
@@ -183,14 +189,17 @@ export function NewDeviceForm({ personId }: { personId: string }) {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end">
+        <div className="mt-6 flex justify-end gap-2">
+          <Button variant="outline" onClick={() => onClose()}>
+            Cancel
+          </Button>
           <Button
             type="submit"
             variant="outline"
             className="h-9"
-            disabled={form.formState.isSubmitting}
+            disabled={formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? (
+            {formState.isSubmitting ? (
               <Loader className="size-4 animate-spin" />
             ) : (
               "Pair device"
