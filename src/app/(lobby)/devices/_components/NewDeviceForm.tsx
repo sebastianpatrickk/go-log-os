@@ -166,6 +166,7 @@ export function NewDeviceForm({ personId }: { personId: string }) {
                         ...currentTeams,
                         getAvailableTeams()?.[0]?.id.toString() || "",
                       ]);
+                      form.trigger("teams");
                     }}
                     disabled={
                       (teams &&
