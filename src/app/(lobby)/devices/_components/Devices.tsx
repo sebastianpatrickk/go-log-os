@@ -3,8 +3,8 @@
 import { useGetDeviceCards } from "@/lib/queries/device";
 import DeviceCard from "./DeviceCard";
 
-export default function Devices() {
-  const { data, isLoading } = useGetDeviceCards();
+export default function Devices({ personId }: { personId: string }) {
+  const { data, isLoading } = useGetDeviceCards({ personId: personId });
 
   if (isLoading) return <DeviceCard.Skeleton />;
 

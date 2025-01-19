@@ -21,9 +21,9 @@ export default async function DevicesPage() {
       </h2>
 
       <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-[repeat(auto-fit,minmax(22.75rem,28rem))]">
-        <Devices />
+        <Devices personId={userId} />
         <Dialog title="New device" trigger={<NewDeviceCard />}>
-          <NewDeviceForm userId={userId} />
+          <NewDeviceForm personId={userId} />
         </Dialog>
       </div>
     </div>

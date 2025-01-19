@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export const inputDeviceCardSchema = z.object({
+  personId: z.string(),
+});
+
+export type InputDeviceCard = z.infer<typeof inputDeviceCardSchema>;
+
 export const deviceCardSchema = z.object({
   id: z.string(),
   name: z.string(),
